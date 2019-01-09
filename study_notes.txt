@@ -1,0 +1,465 @@
+String index starts with 0 and accessed with square bracket []
+len() will give length of the list, string etc.
+
+index = 0
+while index < len(var):  indefinite loop
+  index = index + 1
+  
+for index in var:       definite loop
+  
+  
+slice start:upto 0:4 means 0, 1, 2, 3
+            upto goes beyond the length of the list, sets length of the list
+if start is mentioned then 0  if the upto is not mentioned then legnth 
+
+string concentation is through + 
+
+in checks whether it is in available in the string or not (true or false)
+
+Less than and greater than works in string A < a  Z < a			
+
+string are assigned with ' '
+
+
+type --> will result type of the variable
+dir(varaible)  --> result the functions associated with this variable
+
+strip --> remove white spaces
+lstrip, rstrip
+startswith() --> starts with the specific string or character
+
+
+ex_6.5
+
+text = "X-DSPAM-Confidence:    0.8475";
+pos = text.find(':');
+sdata = text[pos+1:len(text)]
+fdata = float(sdata.strip())
+print(fdata)
+
+
+Files:
+======
+
+handle = open(filename, mode)
+default mode is read('r').
+new line is '\n'
+
+for line in handle
+   line contains the whole line, ending with \n
+   
+lines = handle.read()
+print(len(lines))  -->number of characters in the line.
+rstrip() --> removes new line or white spaces in strings
+startwith('')
+
+try:
+    handle = open(filename)
+except:
+	print('File can not be opened', handle)
+	quit()
+	
+Assignment 1:
+fname = input("Enter file name: ")
+fh = open(fname)
+for line in fh:
+    print(line.strip().upper())
+
+Assignment 2:
+fname = input("Enter file name: ")
+fh = open(fname)
+count = 0;
+total_data = float(0)
+for line in fh:
+    if not line.startswith("X-DSPAM-Confidence:") : continue
+    
+    pos = line.find(':')
+    fdata = float(line[pos+1:].strip())
+    total_data = total_data + fdata
+    count = count + 1    
+
+avg = total_data / count    
+print('Average spam confidence:',avg)
+
+
+Lists:
+======
+a list is a sequence of values.  Referenced by square brackets.
+constant lists
+A list within another list is nested.
+A list that contains no elements is called an empty list; you can create one with empty brackets, [].
+Remember that the indices start at 0:
+strings are non-mutuable
+list is mutuable, means we can change values.
+list has length function
+range returns a list of indices from 0 to n − 1, (0,n)
+range(len(list)) returns values from 0 to n - 1
+counted loop, range
+slice is through :, up to not including 
+
+list() --> create a new list
+append() --> adds to the list
+in --> checks whether value is in the list or not
+sort --> orders the elements in an order
+len, sum, max, min --> other functions
+
+
+numlist = list()
+while True:
+    value = input('Enetr a value:')
+	if value == 'done':
+	    break;
+	numlist.append(float(value))
+avg = sum(numlist) / len(numlist)
+print ('Average = ', avg)
+
+
+split --> split words in a list (string  --> list)  --> split with the space or different delimiter
+
+
+fname = input("Enter file name: ")
+fh = open(fname)
+lst = list()
+for line in fh:
+    words = line.split()
+    for word in words:
+        if word in lst:
+            continue
+        lst.append(word)
+lst.sort()
+print(lst)
+
+
+
+fname = input("Enter file name: ")
+if len(fname) < 1 : fname = "mbox-short.txt"
+
+fh = open(fname)
+count = 0
+
+for line in fh:
+    line = line.rstrip()
+    if not line.startswith('From '): continue
+    words = line.split()
+    print(words[1])
+    count = count + 1
+print("There were", count, "lines in the file with From as the first word")
+
+
+Dictionaries
+============
+List is a collection of values that stay in order
+Dictionary is a bag of values, each has its own label
+  -- key and value  (hash, hashmap etc..)
+  -- Also called Associated array
+  
+purse = dict()
+purse['money'] = 5
+purse['candy'] = 13
+print(purse) -- {'money':5, 'candy':13}
+
+const dictionary --. jjj = {'apple':5, 'banana':10, 'organges':20}
+
+get(key, value) --> checks whether key exists, if so then returns value otherwise 0
+counts = dict()
+counts[name] = counts.get(name, 0) + 1
+ 
+ 
+for key in counts:
+    print(key, counts[key])
+
+keys() --> results keys
+values() --> values
+items() --> a list of key and value[(), (), ()]
+
+for key, value in count.items():
+   print(key, value)
+
+
+Tuples:
+=======
+A tuple1 is a sequence of values much like a list. The values stored in a tuple
+ can be any type, and they are indexed by integers. The important difference is
+ that tuples are immutable, i.e., cannot alter values like strings
+list is created with [] where as Tupes are created with ()
+More efficient in memory use and performance than lists
+
+for (k,v) in d.items():
+
+
+sorted(d.items()) --> sorted key value
+
+tmp = list()
+for k,v in c.items():
+    tmp.append((v, k))
+tmp = sorted(tmp, reverse = true)
+
+
+import string
+fhand = open('romeo-full.txt')
+counts = dict()
+for line in fhand:
+    line = line.translate(str.maketrans('', '', string.punctuation))
+    line = line.lower()
+    words = line.split()
+    for word in words:
+        if word not in counts:
+            counts[word] = 1
+        else:
+            counts[word] += 1
+
+# Sort the dictionary by value
+lst = list()
+for key, val in list(counts.items()):
+    lst.append((val, key))
+
+lst.sort(reverse=True)
+
+for key, val in lst[:10]:
+    print(key, val)
+
+
+	
+The above sorting and for loop can be replaced with the following:
+print(sorted([(v,k) for k,v in c.items()]))
+
+
+Regular Expression (RE):
+========================
+import re
+hand = open('mbox-short.txt')
+for line in hand:
+    line = line.rstrip()
+    if re.search('From:', line):
+        print(line)
+		
+'^From' -> start with From
+^X.* -> Dot machtes any character and * means any number of characters
+^X-\S+: -> Start with X- \S mans non white space  + one or more times
+
+re.search() --> true or false
+y=re.findall('[0-9]+',x) --> list of all matches that matches.
++ and * gives largest values, also called greedy
+? -> not greedy, smallest
+\S+@\S+ gives an email address in the string
+(   ) -> only extracted part -> defines start and stop
+@([^ ]*) -> extracts only server address 
+[  ] -> match non-blank characters
+^From .*([^ ]*) --> returns servers address that start with From String
+^X-DSPAM-Confidence: ([0-9.]+)
+
+Networking Programming:
+======================
+
+Port is number where different services are available
+Port 80, is HTTP and 443 is HTTPS
+8080 web service running on 8080
+
+
+import socket
+
+my_sock = socket.socket(socket.AF_NET, sock.SOCK_STREAM)
+my_sock.connect("ip_address', port_no)
+
+
+Application Protocols: Mail, www
+RFC 2616 -> HTTP Protocol
+GET url and protocol
+
+import socket
+
+mysock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mysock.connect(('data.pr4e.org', 80))
+cmd = 'GET http://data.pr4e.org/romeo.txt HTTP/1.0\r\n\r\n'.encode()
+mysock.send(cmd)
+
+while True:
+    data = mysock.recv(512)
+    if (len(data) < 1):
+        break
+    print(data.decode())
+mysock.close()
+
+.encode converts string to bytes (UTF-8)
+.decode converts bytes (UTF-8) to unicode.
+
+ASCII supports only 128 characters
+ord() function  returns the value of a character in a value (for ASCII) in decimal
+'\n' is 10
+
+Unicode suppors all languages in the world.
+
+UTF-8 (1-4 bytes), UTF-16 (2 bytes), UTF-32 (4 bytes) are different types that are supported.
+UTF-8 can be extended to 1 or 2 or 4 byte format.  Best option for all format and best for systems data exechange.
+
+In python, all string are Unicode
+b, o or h  represents binary, octa, and hexa;  b'10101' etc
+
+
+import urllib.request, urllib.parse, urllib.error
+
+fhand = urllib.request.urlopen('http://data.pr4e.org/romeo.txt')
+
+counts = dict()
+for line in fhand:
+    words = line.decode().split()
+    for word in words:
+        counts[word] = counts.get(word, 0) + 1
+print(counts)
+
+
+
+Web Services:
+=============
+XMl (eXtensible Markup Language) is some what harder than the JSON
+In XML, all the data is represented in Elements or nodes
+The purpose of XML is to share the data
+Elements of XML, Start Tag, End Tage, Text Content, Attributes, Self Closing Tag
+XML is a true
+In XML, all the attribute values are represented in String with double Quotes
+XML Schema
+ XML Schema Contract, specify what are the names of tags and what type of values
+ XSD (XML Schema from W3C)structure 
+	Complete Type, sequence Type, simple element (data)
+In the case of Date Time, Date followed by T(Time) followed by Z (zone)(UTC or GMT)
+
+import xml.etree.ElementTree as EF
+
+data = '''    '''
+tree = ET.fromstring(data)
+print('Name:', tree.find('name').text())
+
+attribute value can be get through .get() function inside the tree
+stuff = ET.fromstring9data)
+lst = stuff.findall('Users/user')
+for item in lst:
+    print ("name', item.find('name').text())
+	print ("Attribute", item.get("x")) --> Get the attribute value
+	
+
+JSON:
+
+Service Oriented Approach
+
+
+Databases with Python:
+======================
+The ord() function tell us the numeric value of a simple ASCII character.
+
+Object Oriented Programming:
+----------------------------
+Objects are a bit of code and data
+
+class - a template
+Method or Message - a definied capability of a class
+Field or Attribute - A bit of data in a class
+Object or Instance - A particular instance of a class
+
+class is a blue print
+
+
+dir() --> gets the list methods 
+
+
+class name:
+  def __init__(self):
+  def __del__(self)
+  def functionname(self):
+
+
+constructor: initial values   def __init__(self):
+destructor: clean   def __del__(self):
+
+constructor and destructors are optional.  The constructor is typically used for to set up variables and destructor is seldom used.
+
+Inheritance: extends the capability of the class
+
+class name (classname):
+   def function_name(self):
+   
+Database: contains many tables
+Relation (or table): contains tuples and attributes
+Tuple (or row): a set of fields that generally represents an object like a person or music track
+Attribute(column or field): one of the possible many elements of data corresponding to the object represented by row.
+
+SQL - Structured Query Language
+ is an API between actual data base and application
+ Create a table
+ Retrieve data
+ Insert data
+ Delete data
+ 
+DBD 
+
+DBA -> SQLite Browser -> Data Base
+
+Data Base Model (contract) or data base schema is the structure or format of a data base.
+
+Data Base systems
+oracle, Eneterprise
+MySQL, open source (WEB)
+SQL Server, Microsoft
+Postgress, Open source
+HSQL,SQLite - Open source
+
+SQLite is embedded database, is part of the source, is small and fast.  Part of many other systems like cars, iPhone.
+
+CREATE TABLE Users (
+	name VARCHAR(128),
+	email VARCHAR(128)
+)
+
+New Record in Browse Data
+
+INSERT INTO Users(name, email) VALUES('name', 'email')
+DELETE FROM Users WHERE email='ted@gmail.com'
+UPDATE Users SET name='Charles' WHERE email='csev@gmail.edu'
+SELECT * FROM Users WHERE email='csev@gmail.com'
+SELECT * FROM Users
+SELECT * FROM Users ORDER BY email/name
+
+
+Building a Data Model:
+Don't put the same string data in twice - use a relationship instead
+
+Primary Key, unique value in the table
+Foreign key, refer to another table id
+Logical key
+
+Insert into table (name)  values('actual anme")
+
+The commands in the SQL lite browser are seperated by ;.
+
+select attributes from table join table on attributes (clause).  if on clause is not there, then all combinations will be selected.
+
+INSERT OR IGNORE or INSERT OR REPLACE are not part of standard SQL and those are port of SQLlite
+
+Many to Many
+  Junction Table (two foreign keys, no primary key)
+  Many to One and Many to One --> Many to Many
+  Combination of two primary keys
+
+
+GeoCoding:
+==========
+
+Capstone:
+=========
+Search Engine
+-------------
+Web Crawling : copy of the web
+Index Building
+Searching
+
+Web Crawling Policy
+ - selection policy, re-visit policy, politeness policy, and parallelization policy
+ - robots.txt
+Indexing
+ - 
+
+Gmane
+=====
+
+
+
+
